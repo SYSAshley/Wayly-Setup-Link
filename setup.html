@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wayly — Setup</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f7f8fa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: #26282e;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 40px 36px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      background: #fff0f4;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #5d6169;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    /* Step list */
+    .steps {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e0045f;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-num.done {
+      background: #22c55e;
+    }
+
+    .step-text p {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .step-text span {
+      font-size: 12px;
+      color: #8b8e95;
+    }
+
+    /* URL preview */
+    .url-preview {
+      background: #f7f8fa;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: monospace;
+      font-size: 13px;
+      color: #26282e;
+      margin-bottom: 28px;
+      word-break: break-all;
+      text-align: left;
+      border: 1px solid #e3e5e9;
+    }
+
+    /* CTA button */
+    .btn {
+      display: inline-block;
+      width: 100%;
+      background: #e0045f;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      text-decoration: none;
+      margin-bottom: 12px;
+    }
+    .btn:hover  { background: #c00350; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { background: #f0a0c0; cursor: not-allowed; }
+
+    .btn-secondary {
+      display: inline-block;
+      width: 100%;
+      background: #f0f1f3;
+      color: #26282e;
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-decoration: none;
+    }
+    .btn-secondary:hover { background: #e3e5e9; }
+
+    /* Status states */
+    .state { display: none; }
+    .state.active { display: block; }
+
+    /* Success */
+    .success-icon {
+      width: 56px;
+      height: 56px;
+      background: #dcfce7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    /* Error */
+    .error-box {
+      background: #fff0f4;
+      border: 1px solid #f5b8cc;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #a00030;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: #bfc1c6;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── STATE: Ready to configure ── -->
+<div class="card" id="stateReady">
+  <div class="logo">
+    <img src="data:image/png;base64,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" width="64" height="64" alt="Wayly" style="border-radius:16px;" />
+  </div>
+
+  <h1>Set up your NetSuite guide</h1>
+  <p class="subtitle">
+    Click below to connect the Wayly extension to your NetSuite account.
+    This takes about 10 seconds.
+  </p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num done">✓</div>
+      <div class="step-text">
+        <p>Extension installed</p>
+        <span>Wayly is active in Chrome</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <p>Connect your account</p>
+        <span>We'll configure the extension for your NetSuite URLs</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <p>Open NetSuite</p>
+        <span>Your guides will appear automatically</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:#8b8e95;margin-bottom:8px;text-align:left;">
+    Configuring for:
+  </p>
+  <div class="url-preview" id="urlPreview">Loading…</div>
+
+  <button class="btn" id="connectBtn">Connect my NetSuite account →</button>
+  <p class="footer-note">No login required. Your Widget ID is managed by Wayly.</p>
+</div>
+
+<!-- ── STATE: No extension installed ── -->
+<div class="card state" id="stateNoExtension">
+  <div style="font-size:40px;margin-bottom:16px;">🔌</div>
+  <h1>Extension not found</h1>
+  <p class="subtitle" style="margin-bottom:24px;">
+    You need to install the Wayly extension first, then come back to this page.
+  </p>
+  <a class="btn" id="installLink" href="#">Install Extension</a>
+  <p class="footer-note">After installing, refresh this page.</p>
+</div>
+
+<!-- ── STATE: Success ── -->
+<div class="card state" id="stateSuccess">
+  <div class="success-icon">
+    <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+      <path d="M5 13l4 4L19 7" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <h1>You're all set! 🎉</h1>
+  <p class="subtitle" style="margin-bottom:24px;">
+    Your extension is configured. Open NetSuite and your guides will appear automatically.
+  </p>
+  <a class="btn" id="openNetSuiteBtn" href="https://system.netsuite.com" target="_blank">Open NetSuite →</a>
+  <p class="footer-note">You can close this tab. The extension is running in the background.</p>
+</div>
+
+<!-- ── STATE: Error ── -->
+<div class="card state" id="stateError">
+  <div style="font-size:40px;margin-bottom:16px;">⚠️</div>
+  <h1>Something went wrong</h1>
+  <div class="error-box" id="errorMsg"></div>
+  <p class="subtitle" style="margin-bottom:24px;">
+    Please try again or contact your Wayly administrator.
+  </p>
+  <button class="btn" onclick="location.reload()">Try Again</button>
+</div>
+
+<script>
+  // ── STEP: Paste your Extension ID below ─────────────────────────────────────
+  // 1. Go to chrome://extensions/
+  // 2. Find "Wayly" in the list
+  // 3. Copy the ID shown under the extension name (looks like: abcdefghijklmnopqrstuvwxyz123456)
+  // 4. Paste it between the quotes below, replacing YOUR_EXTENSION_ID_HERE
+  const EXTENSION_ID = "kjbnfjfppgecfenlhjhlfdinedalihik";
+
+  // ── Parse the URL params ──────────────────────────────────────────────────
+  const params   = new URLSearchParams(window.location.search);
+  const urls     = params.get("urls")     || "";   // e.g. tstdrv1234567.app.netsuite.com
+  const client   = params.get("client")   || "";   // e.g. Verndale (display only)
+  const redirect = params.get("redirect") || "";   // optional: where to send them after
+
+  // ── Show the URL preview ──────────────────────────────────────────────────
+  const urlPreview = document.getElementById("urlPreview");
+  if (urls) {
+    const list = urls.split(",").map(u => u.trim()).filter(Boolean);
+    urlPreview.innerHTML = list.map(u => `<div style="padding:2px 0">${u}</div>`).join("");
+  } else {
+    urlPreview.textContent = "All NetSuite environments";
+  }
+
+  if (client) {
+    document.querySelector("h1").textContent = `Set up ${client}'s NetSuite guide`;
+  }
+
+  // ── Check if extension is installed ──────────────────────────────────────
+  function showState(id) {
+    document.querySelectorAll("[id^='state']").forEach(el => el.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+
+  function checkExtension() {
+    if (!chrome || !chrome.runtime) {
+      showState("stateNoExtension");
+      return false;
+    }
+    try {
+      chrome.runtime.sendMessage(EXTENSION_ID, { type: "WAYLY_PING" }, (response) => {
+        if (chrome.runtime.lastError) {
+          // Extension not installed or ID wrong
+          showState("stateNoExtension");
+        }
+        // else: extension found, ready state is already showing
+      });
+    } catch (e) {
+      showState("stateNoExtension");
+    }
+    return true;
+  }
+
+  // ── Connect button ────────────────────────────────────────────────────────
+  document.getElementById("connectBtn").addEventListener("click", () => {
+    const btn = document.getElementById("connectBtn");
+    btn.disabled = true;
+    btn.textContent = "Configuring…";
+
+    const accountURLs = urls || "app.netsuite.com";
+
+    chrome.runtime.sendMessage(
+      EXTENSION_ID,
+      { type: "WAYLY_SETUP", accountURLs },
+      (response) => {
+        if (chrome.runtime.lastError || !response || !response.success) {
+          document.getElementById("errorMsg").textContent =
+            chrome.runtime.lastError?.message || "Could not reach the extension.";
+          showState("stateError");
+          return;
+        }
+
+        // Success — update the redirect button if a custom one was provided
+        if (redirect) {
+          document.getElementById("openNetSuiteBtn").href = redirect;
+        } else if (urls) {
+          const firstUrl = urls.split(",")[0].trim();
+          document.getElementById("openNetSuiteBtn").href =
+            firstUrl.startsWith("http") ? firstUrl : `https://${firstUrl}`;
+        }
+
+        showState("stateSuccess");
+      }
+    );
+  });
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+  // If EXTENSION_ID is still the placeholder, show a dev notice
+  if (false) { // Extension ID is configured
+    document.getElementById("connectBtn").insertAdjacentHTML("beforebegin",
+      '<p style="font-size:12px;color:#f59e0b;background:#fef3c7;padding:8px 12px;border-radius:6px;margin-bottom:12px;">⚠️ Developer: replace EXTENSION_ID in setup.html with your real extension ID.</p>'
+    );
+  } else {
+    checkExtension();
+  }
+</script>
+</body>
+</html>
